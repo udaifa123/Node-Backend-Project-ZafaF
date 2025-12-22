@@ -11,7 +11,6 @@
 
 
 
-
 const express = require("express");
 const router = express.Router();
 const { protect } = require("../middleware/authMiddleware");
@@ -26,4 +25,3 @@ router.get("/", protect, getWishlist);
 router.delete("/:id", protect, removeFromWishlist);
 
 module.exports = router;
-

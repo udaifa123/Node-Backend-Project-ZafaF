@@ -3,7 +3,11 @@ const Cart = require("../models/Cart");
 exports.addToCart = async (req, res) => {
   const { productId } = req.body;
 
-  const existing = await Cart.findOne({ user: req.user._id, product: productId });
+  const existing = await Cart.findOne({
+    user: req.user._id,
+    product: productId,
+  });
+
   if (existing) {
     existing.quantity += 1;
     await existing.save();
@@ -29,5 +33,5 @@ exports.removeFromCart = async (req, res) => {
 
 exports.getCart = async (req, res) => {
   const cart = await Cart.find({ user: req.user._id }).populate("product");
-  res.json(cart);
+  res.json(cart); // 🔥 ARRAY
 };

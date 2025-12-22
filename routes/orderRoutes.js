@@ -20,21 +20,18 @@
 
 
 
-
-
 const express = require("express");
-const router = express.Router();
-const { protect } = require("../middleware/authMiddleware");
-const { adminOnly } = require("../middleware/roleMiddleware");
 const {
-  createOrder,
+  createRazorpayOrder,
+  verifyPayment,
   getMyOrders,
-  getRevenue,
 } = require("../controllers/orderController");
+const { protect } = require("../middleware/authMiddleware");
 
-router.post("/", protect, createOrder);
+const router = express.Router();
+
+router.post("/create", protect, createRazorpayOrder);
+router.post("/verify", protect, verifyPayment);
 router.get("/my", protect, getMyOrders);
-router.get("/revenue", protect, adminOnly, getRevenue);
 
 module.exports = router;
-

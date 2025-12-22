@@ -60,6 +60,45 @@
 
 
 
+// const express = require("express");
+// const dotenv = require("dotenv");
+// const connectDB = require("./config/db");
+// const cors = require("cors");
+// const { errorHandler } = require("./middleware/errorMiddleware");
+
+// dotenv.config();
+// connectDB();
+
+// const app = express();
+
+// // Middleware
+// app.use(cors());
+// app.use(express.json());
+// app.use("/uploads", express.static("uploads"));
+
+// // ✅ AUTH ROUTES (SEPARATED)
+// app.use("/api/users", require("./routes/userAuthRoutes"));
+// app.use("/api/admin", require("./routes/adminAuthRoutes"));
+
+// // ✅ APP ROUTES
+// app.use("/api/products", require("./routes/productRoutes"));
+// app.use("/api/cart", require("./routes/cartRoutes"));
+// app.use("/api/wishlist", require("./routes/wishlistRoutes"));
+// app.use("/api/orders", require("./routes/orderRoutes"));
+// app.use("/api/payment", require("./routes/paymentRoutes"));
+
+// // Error middleware
+// app.use(errorHandler);
+
+// // Start server
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+
+
+
+
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
@@ -71,27 +110,49 @@ connectDB();
 
 const app = express();
 
-// Middleware
-app.use(cors());
+/* =========================
+   ✅ CORS (VERY IMPORTANT)
+========================= */
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://zafaf-frontend.onrender.com"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
+
+/* =========================
+   Middleware
+========================= */
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
-// ✅ AUTH ROUTES (SEPARATED)
+/* =========================
+   Routes
+========================= */
 app.use("/api/users", require("./routes/userAuthRoutes"));
 app.use("/api/admin", require("./routes/adminAuthRoutes"));
+app.use("/api/admin",require("./routes/adminProductRoutes"))
 
-// ✅ APP ROUTES
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/cart", require("./routes/cartRoutes"));
 app.use("/api/wishlist", require("./routes/wishlistRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
-app.use("/api/payment", require("./routes/paymentRoutes"));
+// app.use("/api/payment", require("./routes/paymentRoutes"));
 
-// Error middleware
+/* =========================
+   Error Handler
+========================= */
 app.use(errorHandler);
 
-// Start server
+/* =========================
+   Server
+========================= */
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });

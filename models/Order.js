@@ -21,11 +21,13 @@
 
 
 
+
+
+
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-
   items: [
     {
       product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
@@ -33,7 +35,6 @@ const orderSchema = new mongoose.Schema({
       price: Number,
     },
   ],
-
   address: {
     fullName: String,
     phone: String,
@@ -42,15 +43,12 @@ const orderSchema = new mongoose.Schema({
     state: String,
     pincode: String,
   },
-
   totalAmount: Number,
-
   paymentStatus: {
     type: String,
-    enum: ["SUCCESS"],
-    default: "SUCCESS",
+    enum: ["SUCCESS", "FAILED"],
+    default: "FAILED",
   },
-
 }, { timestamps: true });
 
 module.exports = mongoose.model("Order", orderSchema);
