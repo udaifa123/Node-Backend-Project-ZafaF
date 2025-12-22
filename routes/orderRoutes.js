@@ -19,19 +19,11 @@
 
 
 
-
 const express = require("express");
-const {
-  createRazorpayOrder,
-  verifyPayment,
-  getMyOrders,
-} = require("../controllers/orderController");
-const { protect } = require("../middleware/authMiddleware");
+const { createOrder } = require("../controllers/orderController");
 
 const router = express.Router();
 
-router.post("/create", protect, createRazorpayOrder);
-router.post("/verify", protect, verifyPayment);
-router.get("/my", protect, getMyOrders);
+router.post("/create", createOrder); // ✅ NO AUTH
 
 module.exports = router;
