@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const generateToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
-// ✅ USER REGISTER
+//  USER REGISTER
 exports.userRegister = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -14,7 +14,7 @@ exports.userRegister = async (req, res) => {
     return res.status(400).json({ message: "User already exists" });
   }
 
-  // ✅ HASH PASSWORD
+  //  HASH PASSWORD
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = await User.create({
@@ -30,7 +30,7 @@ exports.userRegister = async (req, res) => {
   });
 };
 
-// ✅ USER LOGIN
+//  USER LOGIN
 exports.userLogin = async (req, res) => {
   const { email, password } = req.body;
 

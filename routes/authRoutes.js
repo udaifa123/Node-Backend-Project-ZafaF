@@ -30,18 +30,16 @@
 // module.exports = router;
 
 
-
-
+// routes/authRoutes.js
 const express = require("express");
 const router = express.Router();
-const { registerUser, login, registerAdmin } = require("../controllers/authController");
+const { registerUser, login, registerAdmin, adminLogin } = require("../controllers/authController");
 const { protect } = require("../middleware/authMiddleware");
 const { adminOnly } = require("../middleware/roleMiddleware");
-const { validate } = require("../middleware/validateMiddleware");
-const { registerValidation, loginValidation } = require("../validations/authValidation");
 
-router.post("/register", validate(registerValidation), registerUser);
-router.post("/login", validate(loginValidation), login);
-router.post("/admin/register", protect, adminOnly, validate(registerValidation), registerAdmin);
+router.post("/register", registerUser);
+router.post("/login", login);
+router.post("/admin/register", protect, adminOnly, registerAdmin);
+router.post("/admin/login", adminLogin); // ✅ match frontend change
 
 module.exports = router;

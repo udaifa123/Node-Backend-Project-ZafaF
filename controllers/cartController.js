@@ -33,5 +33,5 @@ exports.removeFromCart = async (req, res) => {
 
 exports.getCart = async (req, res) => {
   const cart = await Cart.find({ user: req.user._id }).populate("product");
-  res.json(cart); // 🔥 ARRAY
+  res.json(cart); 
 };

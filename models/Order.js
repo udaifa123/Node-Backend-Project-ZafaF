@@ -24,31 +24,79 @@
 
 
 
+// const mongoose = require("mongoose");
+
+// const orderSchema = new mongoose.Schema({
+//   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+//   items: [
+//     {
+//       product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+//       quantity: Number,
+//       price: Number,
+//     },
+//   ],
+//   address: {
+//     fullName: String,
+//     phone: String,
+//     street: String,
+//     city: String,
+//     state: String,
+//     pincode: String,
+//   },
+//   totalAmount: Number,
+//   paymentStatus: {
+//     type: String,
+//     enum: ["SUCCESS", "FAILED"],
+//     default: "FAILED",
+//   },
+// }, { timestamps: true });
+
+// module.exports = mongoose.model("Order", orderSchema);
+
+
+
 const mongoose = require("mongoose");
 
-const orderSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  items: [
-    {
-      product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-      quantity: Number,
-      price: Number,
+const orderSchema = mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-  ],
-  address: {
-    fullName: String,
-    phone: String,
-    street: String,
-    city: String,
-    state: String,
-    pincode: String,
+
+  orderItems: [
+  {
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+    },
+    name: String,
+    quantity: Number,
+    price: Number,
   },
-  totalAmount: Number,
-  paymentStatus: {
-    type: String,
-    enum: ["SUCCESS", "FAILED"],
-    default: "FAILED",
+],
+
+    shippingAddress: {
+      fullName: String,
+      phone: String,
+      street: String,
+      city: String,
+      state: String,
+      pincode: String,
+    },
+
+    totalAmount: {
+      type: Number,
+      required: true,
+    },
+
+    isPaid: {
+      type: Boolean,
+      default: false,
+    },
   },
-}, { timestamps: true });
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("Order", orderSchema);

@@ -159,7 +159,6 @@
 // };
 
 
-
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
@@ -170,11 +169,17 @@ exports.registerUser = async (req, res) => {
   const exists = await User.findOne({ email });
   if (exists) return res.status(400).json({ message: "User already exists" });
 
-  const user = await User.create({ name, email, password, role: "user" });
-  res.status(201).json({
-    _id: user._id, name: user.name, email: user.email, role: user.role,
-    token: generateToken(user._id)
-  });
+  const user = await User.create({ name, email, password });
+  res.status(201).json({ token: generateToken(user._id), user });
+};
+
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user || !(await user.matchPassword(password))) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
+  res.json({ token: generateToken(user._id), user });
 };
 
 exports.registerAdmin = async (req, res) => {
@@ -183,20 +188,14 @@ exports.registerAdmin = async (req, res) => {
   if (exists) return res.status(400).json({ message: "Admin already exists" });
 
   const admin = await User.create({ name, email, password, role: "admin" });
-  res.status(201).json({
-    message: "Admin created successfully",
-    admin: { _id: admin._id, name: admin.name, email: admin.email },
-  });
+  res.status(201).json({ token: generateToken(admin._id), admin });
 };
 
-exports.login = async (req, res) => {
+exports.adminLogin = async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (!user || !(await user.matchPassword(password)))
-    return res.status(401).json({ message: "Invalid credentials" });
-
-  res.json({
-    _id: user._id, name: user.name, email: user.email, role: user.role,
-    token: generateToken(user._id)
-  });
+  const admin = await User.findOne({ email, role: "admin" });
+  if (!admin || !(await admin.matchPassword(password))) {
+    return res.status(401).json({ message: "Invalid admin credentials" });
+  }
+  res.json({ token: generateToken(admin._id), admin });
 };
