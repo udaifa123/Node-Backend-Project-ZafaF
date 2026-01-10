@@ -132,10 +132,6 @@ app.use(
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
-app.get("/", (req, res) => {
-  res.status(200).send("Zafaf Backend API is running 🚀");
-});
-
 
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/users", require("./routes/userAuthRoutes"));
@@ -146,7 +142,7 @@ app.use("/api/admin", require("./routes/adminUserRoutes"));
 app.use("/api/admin", require("./routes/adminOrderRoutes"));
 app.use("/api/admin", require("./routes/adminRevenueRoutes"));
 app.use("/api/admin", require("./routes/adminStatsRoutes"));
-app.use("/api/admin/analytics",require("./routes/adminAnalyticsRoutes"));
+app.use("api/admin/analytics",require("./routes/adminAnalyticsRoutes"));
 app.use("/api/reviews", require("./routes/reviewRoutes"));
 
 
