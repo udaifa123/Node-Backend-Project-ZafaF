@@ -158,6 +158,9 @@ app.use("/api/paypal", require("./routes/paypalRoutes"));
 
 app.use(errorHandler);
 
+app.get("/", (req, res) => {
+  res.send("Backend is live 🚀");
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
